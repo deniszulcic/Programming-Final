@@ -1,0 +1,87 @@
+import json
+
+# Function to save a password
+def save_password(service, password):
+    # Open passwords.json
+    with open('passwords.json', 'r+') as file:
+        # Load existing data
+        data = json.load(file)
+        # Update the password function
+        data[service] = password
+        file.seek(0)
+        # Write the updated data to the file
+        json.dump(data, file, indent=2)
+        file.truncate()
+
+# Function to retrieve a password
+def get_password(service):
+    # Open the passwords file
+    with open('passwords.json', 'r') as file:
+        # Load data
+        data = json.load(file)
+    # Return the password
+    return data.get(service, None)
+
+# Remove Password
+def remove_password(service):
+    # Open the passwords.json file
+    with open('passwords.json', 'r+') as file:
+        # Load data
+        data = json.load(file)
+        # Check if the service exists in the data
+        if service in data:
+            # Remove the password
+            del data[service]
+            file.seek(0)
+            # Write the updated data
+            json.dump(data, file, indent=2)
+            file.truncate()
+            print(f"Password removed successfully\n")
+        else:
+            print(f"No password saved\n")
+
+# Main
+if __name__ == "__main__":
+    # Loop
+    while True:
+        # Menu
+        print("1. New password")
+        print("2. Retrieve password")
+        print("3. Remove password")
+        print("4. Exit")
+
+        # Choice
+        choice = input("1, 2, 3, or 4: ")
+
+        # Choices etx.
+        if choice == '1':
+            # Save a new password
+            service = input("Enter the name of the service ")
+            new_password = input("Enter the password to save ")
+            save_password(service, new_password)
+            print(f"Password for saved successfully\n")
+        elif choice == '2':
+            # Retrieve a password
+            service = input("Enter the name of the service ")
+            retrieved_password = get_password(service)
+            if retrieved_password:
+                print(f"Retrieved password for {service}: {retrieved_password}\n")
+            else:
+                print(f"No password saved\n")
+        elif choice == '3':
+            # Remove a password
+            service = input("Enter the name of the service: ")
+            remove_password(service)
+        elif choice == '4':
+            # Exit
+            print("Bye")
+            break
+        else:
+            # If something other than 1 2 or 3 is entered
+            print("Invalid. Enter 1, 2, 3, or 4.\n")
+
+
+#CREDITS
+# https://www.youtube.com/watch?v=nJtJ1wUACOY&pp=ygUacGFzc3dvcmQgbWFuYWdlciBpbiBweXRob24%3D
+# https://www.youtube.com/watch?v=DLn3jOsNRVE&t=5280s&pp=ygUacGFzc3dvcmQgbWFuYWdlciBpbiBweXRob24%3D
+# https://www.youtube.com/watch?v=O8596GPSJV4&pp=ygUacGFzc3dvcmQgbWFuYWdlciBpbiBweXRob24%3D
